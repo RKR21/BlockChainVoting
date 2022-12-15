@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "hash.h"
 
 
 unsigned char* SHA_40(const unsigned char* msg, size_t length){
@@ -39,20 +40,28 @@ unsigned char* SHA_40(const unsigned char* msg, size_t length){
 
 
 } //SHA_40 hash function
-/**
+
 int digest_equal(struct Digest* digest1, struct Digest* digest2){
-
+    return digest1->hash0 == digest2->hash0 && digest1->hash1 == digest2->hash1 &&
+    digest1->hash2 == digest2->hash2 && digest1->hash3 == digest2->hash3 && 
+    digest1->hash4 == digest2->hash4;
 } //Returns 1 (true) or 0 (false)
-void print_hash(struct Digest* digest){
 
+void print_hash(struct Digest* digest){
+    printf("%d ", digest->hash0);
+	printf("%d ", digest->hash1);
+	printf("%d ", digest->hash2);
+	printf("%d ", digest->hash3);
+	printf("%d\n", digest->hash4);
 } //Prints hash
-*/
+
 int main(void){
     unsigned char* str = "Rob";
+    unsigned char* str2 = "Rob";
     unsigned char* digest1 = SHA_40(str, strlen(str));
-    for(int i = 0; i < 5; i ++){
-        printf("%d", digest1[i]);
-    }
+    unsigned char* digest2 = SHA_40(str2, strlen(str2));
+    print_hash((struct Digest*)digest2);
+    
     
     return 0;
 }

@@ -37,10 +37,7 @@ void add(struct Blockchain* chain, char * candidate, char * voter){
     if(chain -> size == 1){
         struct Digest prevHash = {0, 0, 0, 0, 0};
         newBlock -> prev_hash = prevHash;
-        // give an ID for use in hash function to obtain unqiue values
-        //snprintf(newBlock -> ID, 4, "%d", chain -> size);
     } else{
-        //snprintf(newBlock -> ID, 4, "%d", chain -> size);
         // get copy of head block
         struct Block * headOfChain = chain -> head;
         // get data of head and store in variable to pass to SHA
@@ -63,12 +60,48 @@ void add(struct Blockchain* chain, char * candidate, char * voter){
 }
 
 void verify(struct Blockchain* chain){
+    printf("Verifying...\n");
+    int pass_fail = 0;
+    struct Block * current = chain -> head;
+    for(int i = current -> height; i > 0; i--){
+        struct Block * previous = current -> prev_block;
+        
+        // collect calculated hash of previous block
+        unsigned char * calculate = SHA_40(previous -> data, previous -> height, strlen(previous -> data));
+        struct Digest temp;
+        struct Digest * calculated;
+        temp.hash0 = calculate[0];
+        temp.hash1 = calculate[1];
+        temp.hash2 = calculate[2];
+        temp.hash3 = calculate[3];
+        temp.hash4 = calculate[4];
+        calculated = &temp;
+        
+        // collect stored hash of previous block
+        struct Digest prevHash = current -> prev_hash;
+        struct Digest * stored = &prevHash;
+        int n = digest_equal(stored, calculated);
+        
+        // check if calculated and stored hashes are the same
+        if(digest_equal(stored, calculated) == 1){
+            printf("Block %d passed\n", i);
+        } else if(digest_equal(stored, calculated) == 0){
+            printf("Block %d failed\n", i);
+            printf("Block %d and/or block %d may have been tampered with\n", i, i - 1);
+            pass_fail++;
+        }
+        if(pass_fail == 0){printf("All blocks have been verified\n");}
+        current = current -> prev_block;
 
+    }
 }
 
-//void delete_at(struct Blockchain* chain, int height);
+//void delete_at(struct Blockchain* chain, int height, char * name);
+
+
 
 void printf_blockchain(struct Blockchain* chain){
+    printf("Printing...\n");
     struct Block * current = chain -> head;
     while(current){
         printf("{ID: %d, vote: %s, name: %s, prev_hash: %d %d %d %d %d}\n", current -> height,
@@ -82,11 +115,10 @@ void printf_blockchain(struct Blockchain* chain){
 } // print all info in each block of the blockchain
 
 int main(void){
-    //puts("");
     struct Blockchain* blockchain = initialize();
     add(blockchain, "Donald J. Trump", "Reggie Kaustas");
     add(blockchain, "Nairo Quazada", "Joe Joplin");
-    //printf("%s\n", blockchain -> head -> data);
     printf_blockchain(blockchain);
+    verify(blockchain);
     
 }

@@ -20,7 +20,6 @@ struct Block{
     int height;
     char data[30];
     char name[30];
-    char ID[5];
     struct Digest prev_hash;
     struct Block* prev_block;
 };

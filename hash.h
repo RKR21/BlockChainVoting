@@ -17,6 +17,6 @@ struct Digest{
 
 //Function Prototypes
 
-unsigned char* SHA_40(char* msg, char * ID, size_t length); //SHA_40 hash function
+unsigned char* SHA_40(char* msg, int height, size_t length); //SHA_40 hash function
 int digest_equal(struct Digest* digest1, struct Digest* digest2); //Returns 1 (true) or 0 (false)
 void print_hash(struct Digest* digest); //Prints hash

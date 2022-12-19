@@ -38,15 +38,15 @@ void add(struct Blockchain* chain, char * candidate, char * voter){
         struct Digest prevHash = {0, 0, 0, 0, 0};
         newBlock -> prev_hash = prevHash;
         // give an ID for use in hash function to obtain unqiue values
-        snprintf(newBlock -> ID, 4, "%d", chain -> size);
+        //snprintf(newBlock -> ID, 4, "%d", chain -> size);
     } else{
-        snprintf(newBlock -> ID, 4, "%d", chain -> size);
+        //snprintf(newBlock -> ID, 4, "%d", chain -> size);
         // get copy of head block
         struct Block * headOfChain = chain -> head;
         // get data of head and store in variable to pass to SHA
         char * header_candidate = headOfChain -> data;
         // calculate hash of head
-        const unsigned char * digest = SHA_40(header_candidate, headOfChain -> ID, strlen(header_candidate));
+        const unsigned char * digest = SHA_40(header_candidate, newBlock -> height, strlen(header_candidate));
         // store hash of head in prevHash, then give it to newBlock -> prev_hash
         struct Digest prevHash;
         prevHash.hash0 = digest[0];
@@ -62,16 +62,31 @@ void add(struct Blockchain* chain, char * candidate, char * voter){
     chain -> head = newBlock;
 }
 
-//void verify(struct Blockchain* chain);
+void verify(struct Blockchain* chain){
+
+}
 
 //void delete_at(struct Blockchain* chain, int height);
 
-//void printf_blockchain(struct Blockchain* chain);
+void printf_blockchain(struct Blockchain* chain){
+    struct Block * current = chain -> head;
+    while(current){
+        printf("{ID: %d, vote: %s, name: %s, prev_hash: %d %d %d %d %d}\n", current -> height,
+        current -> data, current -> name, current -> prev_hash.hash0, current -> prev_hash.hash1,
+        current -> prev_hash.hash2, current -> prev_hash.hash3, current -> prev_hash.hash4);
+
+        current = current -> prev_block;
+    }
+
+
+} // print all info in each block of the blockchain
 
 int main(void){
     //puts("");
     struct Blockchain* blockchain = initialize();
-    add(blockchain, "Donald J. Trump", "Reggie Kaustas\n");
-    printf("%s\n", blockchain -> head -> data);
+    add(blockchain, "Donald J. Trump", "Reggie Kaustas");
+    add(blockchain, "Nairo Quazada", "Joe Joplin");
+    //printf("%s\n", blockchain -> head -> data);
+    printf_blockchain(blockchain);
     
 }

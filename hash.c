@@ -2,8 +2,10 @@
 #include "hash.h"
 
 
-unsigned char* SHA_40(char* msg, char* ID, size_t length){
-
+unsigned char* SHA_40(char* msg, int height, size_t length){
+    // turn height into unsigned char
+    unsigned char ID[5];
+    snprintf((char*)ID, 5, "%d", height);
     //unsigned char* unsignedmsg = (unsigned char *) msg;
     //unsigned char* unsignedID = (unsigned char *) ID;
 
@@ -16,7 +18,7 @@ unsigned char* SHA_40(char* msg, char* ID, size_t length){
         message[j] = ID[i];
         j++;
     }
-    printf("%s\n", message);
+    //printf("%s\n", message);
 
     unsigned char A;
 	unsigned char B;

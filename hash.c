@@ -67,7 +67,7 @@ void print_hash(struct Digest* digest){
 	printf("%d ", digest->hash3);
 	printf("%d\n", digest->hash4);
 } //Prints hash
-
+/**
 int main(void){
     char* str = "Carmelo";
     char * ID = "56";
@@ -82,3 +82,4 @@ int main(void){
     
     return 0;
 }
+*/

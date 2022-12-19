@@ -1,10 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #include "hash.h"
 
 
-unsigned char* SHA_40(const unsigned char* msg, size_t length){
+unsigned char* SHA_40(const unsigned char* msg, const unsigned char* ID, size_t length){
+    // concatenate ID and msg
+    unsigned char message[length + 4];
+    snprintf(message, length, "%s", msg); 
+
+    int j = length;
+    for(int i = 0; i < length; i++){
+        message[j] = ID[i];
+        j++;
+    }
+    printf("%s\n", message);
+
     unsigned char A;
 	unsigned char B;
 	unsigned char C;
@@ -22,11 +31,11 @@ unsigned char* SHA_40(const unsigned char* msg, size_t length){
             unsigned char F = (B & C) ^ D;
             int old_A = A;
 
-            A = E + F + (A >> 3) + msg[i] + j;
+            A = E + F + (A >> 3) + message[i] + j;
             E = D;
             D = C;
             C = (B<<1);
-            B = B = old_A;
+            B = old_A;
             
         }
     }
@@ -54,14 +63,19 @@ void print_hash(struct Digest* digest){
 	printf("%d ", digest->hash3);
 	printf("%d\n", digest->hash4);
 } //Prints hash
-
+/**
 int main(void){
-    unsigned char* str = "Rob";
-    unsigned char* str2 = "Rob";
-    unsigned char* digest1 = SHA_40(str, strlen(str));
-    unsigned char* digest2 = SHA_40(str2, strlen(str2));
-    print_hash((struct Digest*)digest2);
+    //unsigned char* str = "Carmelo";
+    //unsigned char * ID = "56";
+    //unsigned char* digest1 = SHA_40(str, ID, strlen(str));
+
+    //print_hash((struct Digest*)digest1);
+    //unsigned char* str2 = "Rob";
+    //unsigned char* digest1 = SHA_40(str, strlen(str));
+    //unsigned char* digest2 = SHA_40(str2, strlen(str2));
+    //print_hash((struct Digest*)digest2);
     
     
     return 0;
 }
+*/

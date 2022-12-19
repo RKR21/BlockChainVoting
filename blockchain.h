@@ -18,7 +18,9 @@
 
 struct Block{
     int height;
-    int data[10];
+    unsigned char data[30];
+    unsigned char name[30];
+    unsigned char ID[5];
     struct Digest prev_hash;
     struct Block* prev_block;
 };
@@ -26,13 +28,14 @@ struct Block{
 struct Blockchain{
     struct Block* head;
     int size;
+    char * position;
 };
 
 void set_digest(struct Digest* digest, struct Block* block);
 
 struct Blockchain* initialize();
 
-void add(struct Blockchain* chain, int data);
+void add(struct Blockchain* chain, char * candidate, char * voter);
 
 void verify(struct Blockchain* chain);
 

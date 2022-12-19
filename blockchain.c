@@ -44,7 +44,7 @@ void add(struct Blockchain* chain, char * candidate, char * voter){
         // get copy of head block
         struct Block * headOfChain = chain -> head;
         // get data of head and store in variable to pass to SHA
-        unsigned char * header_candidate = (unsigned char *)headOfChain -> data;
+        char * header_candidate = headOfChain -> data;
         // calculate hash of head
         const unsigned char * digest = SHA_40(header_candidate, headOfChain -> ID, strlen(header_candidate));
         // store hash of head in prevHash, then give it to newBlock -> prev_hash

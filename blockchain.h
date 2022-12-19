@@ -18,9 +18,9 @@
 
 struct Block{
     int height;
-    unsigned char data[30];
-    unsigned char name[30];
-    unsigned char ID[5];
+    char data[30];
+    char name[30];
+    char ID[5];
     struct Digest prev_hash;
     struct Block* prev_block;
 };

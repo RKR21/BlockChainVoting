@@ -1,7 +1,14 @@
 
 #include "hash.h"
 
-
+/**
+ * @brief Hash function. Generates unique hash from given data. 
+ * 
+ * @param msg data to give to hash function
+ * @param height more data to give to hash function(makes sure hash is unique)
+ * @param length length of the msg
+ * @return unsigned* char return Digest
+ */
 unsigned char* SHA_40(char* msg, int height, size_t length){
     // turn height into unsigned char
     unsigned char ID[5];
@@ -54,21 +61,31 @@ unsigned char* SHA_40(char* msg, int height, size_t length){
     return digest;
 
 
-} //SHA_40 hash function
-
+} 
+/**
+ * @brief Checks if two hashes are equal
+ * 
+ * @param digest1 one digest to compare
+ * @param digest2 another digest to compare
+ * @return int return 1 if true or 0 if false
+ */
 int digest_equal(struct Digest* digest1, struct Digest* digest2){
     return digest1->hash0 == digest2->hash0 && digest1->hash1 == digest2->hash1 &&
     digest1->hash2 == digest2->hash2 && digest1->hash3 == digest2->hash3 && 
     digest1->hash4 == digest2->hash4;
-} //Returns 1 (true) or 0 (false)
-
+} 
+/**
+ * @brief Prints hash value 
+ * 
+ * @param digest hash value to print
+ */
 void print_hash(struct Digest* digest){
     printf("%d ", digest->hash0);
 	printf("%d ", digest->hash1);
 	printf("%d ", digest->hash2);
 	printf("%d ", digest->hash3);
 	printf("%d\n", digest->hash4);
-} //Prints hash
+} 
 /**
 int main(void){
     char* str = "Carmelo";

@@ -59,7 +59,11 @@ void add(struct Blockchain* chain, char * candidate, char * voter){
     newBlock -> prev_block = chain -> head;
     chain -> head = newBlock;
 }
-
+/**
+ * @brief Verifies that the data in the blocks are not tampered with
+ * 
+ * @param chain blockchain that represents the election votes
+ */
 void verify(struct Blockchain* chain){
     printf("Verifying...\n");
     int pass_fail = 0;
@@ -100,7 +104,11 @@ void verify(struct Blockchain* chain){
 //void delete_at(struct Blockchain* chain, int height, char * name);
 
 
-
+/**
+ * @brief Prints each block in the blockchain
+ * 
+ * @param chain blockchain that represents the election votes
+ */
 void printf_blockchain(struct Blockchain* chain){
     printf("Printing...\n");
     struct Block * current = chain -> head;

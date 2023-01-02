@@ -1,18 +1,45 @@
 #include <stdbool.h>
 #include "blockchain.h"
 
-void get_winner(chain, candidates[num_candidates][30]){
+void get_winner(struct Blockchain * chain, int num_candidates, char candidates[num_candidates][30]){
+    int num_votes[6];
+    struct Block * current = chain -> head;
     
+    while(current -> height != 0){
+        for(int i = 0; i < num_candidates; i++){
+            if(strcmp(current -> data, candidates[i]) == 0){
+                num_votes[i] += 1;
+                
+            }
+            
+        }
+        current = current -> prev_block;
+    }
+    
+    int winner = 0;
+    int highest = 0;
+    for(int j = 0; j < num_candidates; j++){
+        for(int k = j; k <= num_candidates; k++){
+            if(num_votes[k] > highest){
+                winner = k;
+                highest = num_votes[k];
+            }
+        }
+        
+    }
+    printf("Winner is %s with %d votes!\n", candidates[winner], highest);
 }
 
 void election(struct Blockchain * chain, int num_candidates, char candidates[num_candidates][30]){
     char vote[30] = "";
     char name[30] = "";
+    add(chain, "Junk", "Junk"); // Not counting the first block
     do{
         printf("Enter your name: ");
         fgets(name, 30, stdin);
-        printf("%s", name);
-        if(strcmp(name, "END\n") == 0){
+        name[strlen(name) - 1] = '\0';
+        printf("%s. ", name);
+        if(strcmp(name, "END") == 0){
             printf("List of votes...\n");
             printf_blockchain(chain);
             printf("\n");
@@ -24,11 +51,18 @@ void election(struct Blockchain * chain, int num_candidates, char candidates[num
         printf("Candidates:\n");
         
         for(int i = 0; i < num_candidates; i++){
-            printf("%s", candidates[i]);
+            if(i == num_candidates - 1){
+                printf("%s\n", candidates[i]);
+            } else{
+                printf("%s, ", candidates[i]);
+            }
+            
         }
         fgets(vote, 30, stdin);
+        vote[strlen(vote) - 1] = '\0';
+        printf("%s\n", vote);
         // check if valid candidate
-        if(strcmp(vote, "END\n") == 0){
+        if(strcmp(vote, "END") == 0){
             printf("List of votes...\n");
             printf_blockchain(chain);
             printf("\n");
@@ -76,10 +110,11 @@ int main(void){
     for(int i = 0; i <= num_candidates - 1; i++){
         printf("What is candidate %d's name? ", count);
         fgets(candidates[i], 30, stdin);
+        candidates[i][strlen(candidates[i]) - 1] = '\0';
         count++;
     }
-    printf("%s\n", candidates[0]);
     struct Blockchain* chain = initialize();
     election(chain, num_candidates, candidates);
+    get_winner(chain, num_candidates, candidates);
 }
     

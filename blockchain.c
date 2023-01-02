@@ -27,6 +27,7 @@ struct Blockchain* initialize(){
  */
 void add(struct Blockchain* chain, char * candidate, char * voter){
     struct Block* newBlock = malloc(sizeof(struct Block));
+    //chain -> size++;
     newBlock -> height = chain -> size;
     // increment chains size
     chain -> size++;
@@ -113,7 +114,7 @@ void printf_blockchain(struct Blockchain* chain){
 
 
 } // print all info in each block of the blockchain
-
+/**
 int main(void){
     struct Blockchain* blockchain = initialize();
     add(blockchain, "Donald J. Trump", "Reggie Kaustas");
@@ -122,3 +123,4 @@ int main(void){
     verify(blockchain);
     
 }
+*/

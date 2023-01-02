@@ -72,7 +72,7 @@ void print_hash(struct Digest* digest){
 /**
 int main(void){
     char* str = "Carmelo";
-    char * ID = "56";
+    int ID = 56;
     unsigned char* digest1 = SHA_40(str, ID, strlen(str));
 
     print_hash((struct Digest*)digest1);
